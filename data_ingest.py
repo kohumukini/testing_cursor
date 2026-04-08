@@ -7,5 +7,3 @@ def get_google_data():
     google_df = google_data.reset_index()
     google_df = google_df[['Date', 'Open', 'Close', 'Volume']]
     return google_df
-
-print(get_google_data().head())
