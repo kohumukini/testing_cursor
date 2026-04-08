@@ -4,6 +4,9 @@ import pandas as pd
 
 engine = sa.create_engine('sqlite:///stocks.db')
 
+def create_table(df, df_name): 
+    df.to_sql(f'{df_name}_data', engine, if_exists = 'replace', index = False)
+
 def create_google_table():
     google_df = get_google_data()
     google_df.to_sql('google_data', engine, if_exists = 'replace', index = False)
