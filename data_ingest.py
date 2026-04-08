@@ -4,6 +4,10 @@ import yfinance as yf
 
 def get_google_data(): 
     google_data = yf.download("GOOG", start = "2024-01-01", end = "2026-01-01")
+
+    if isinstance(google_data.columns, pd.MultiIndex):
+        google_data.columns = google_data.columns.get_level_values(0)
+
     google_df = google_data.reset_index()
     google_df = google_df[['Date', 'Open', 'Close', 'Volume']]
     return google_df
