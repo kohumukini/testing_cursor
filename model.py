@@ -4,12 +4,12 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
-from database import read_table
+from features import generate_features
 
-def predict_tomorrows_price():
-    df = read_table("google_features_data")
+def predict_tomorrows_price(ticker):
+    df = generate_features(ticker)
 
-    features = df[['7-Day MA', 'Daily Return Raw']]
+    features = df[['7-Day MA', 'Daily Raw Return']]
     target = df['Target']
 
     reg_model = LinearRegression()
@@ -18,7 +18,6 @@ def predict_tomorrows_price():
     reg_model.fit(X_train, y_train)
 
     predictions = reg_model.predict(X_test)
-    # print(df.corr(numeric_only = True)) Checking correlation
     r_squared = r2_score(y_test, predictions)
     mse = mean_squared_error(y_test, predictions)
 

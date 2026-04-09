@@ -2,12 +2,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import yfinance as yf
 
-def get_google_data(): 
-    google_data = yf.download("GOOG", start = "2024-01-01", end = "2026-01-01")
+def get_stock_data(ticker): 
+    stock_data = yf.download(ticker, start = "2024-01-01", end = "2026-01-01")
 
-    if isinstance(google_data.columns, pd.MultiIndex):
-        google_data.columns = google_data.columns.get_level_values(0)
+    if isinstance(stock_data.columns, pd.MultiIndex): 
+        stock_data.columns = stock_data.columns.get_level_values(0)
 
-    google_df = google_data.reset_index()
-    google_df = google_df[['Date', 'Open', 'Close', 'Volume']]
-    return google_df
+    stock_df = stock_data.reset_index()
+    stock_df = stock_df[['Date', 'Open', 'Close', 'Volume']]
+
+    return stock_df        
