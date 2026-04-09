@@ -1,2 +1,4 @@
 # testing_cursor
-Repository to store and house cursor usage
+Project in progress... 
+
+Cursor Usage: None
