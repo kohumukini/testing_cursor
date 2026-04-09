@@ -15,3 +15,6 @@ A modular Python application that fetches financial data, processes technical in
    pip install yfinance pandas sqlalchemy streamlit scikit-learn
 
    streamlit run app.py
+```
+<img src="Images/example.png" alt="Graph emulated stock prices with predictive value and stocks stats" width="1000">
+
