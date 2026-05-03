@@ -1,7 +1,73 @@
 import os
+from sqlalchemy import Column, Integer, String, Float, DateTime, JSON, create_engine
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
 from dotenv import load_dotenv
 
+# Loading the environment file
 load_dotenv()
 
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = os.getenv("DB_PORT", "")
+# Getting the database information from the .env file
+USER = os.getenv("DB_USER")
+PASSWORD = os.getenv("DB_PASSWORD")
+NAME = os.getenv("DB_NAME")
+PORT = os.getenv("DB_PORT")
+
+# Checking which host to use
+if os.getenv("IS_DOCKER") == "true": 
+    HOST = "db"
+else: 
+    HOST = "localhost"
+
+URL = f"postgresql://{USER}:{PASSWORD}@{HOST}:{PORT}/{NAME}"
+ENGINE = create_engine(URL)
+
+class Base(DeclarativeBase): 
+    pass
+
+# Creates the raw data table after importing data from yfinance
+class BronzeStock(Base):
+    __tablename__ = "bronze_yfinance_raw"
+
+    id = Column(Integer, primary_key = True)
+    ticker = Column(String)
+    raw_json = Column(JSON)
+    ingested_at = Column(DateTime)
+
+# Creates the cleaned table after feature engineering and data laundering
+class SilverStock(Base):
+    __tablename__ = "silver_ticker_features"
+
+    id = Column(Integer, primary_key = True)
+    ticker = Column(String)
+    timestamp = Column(DateTime)
+    close_price = Column(Float)
+    volume = Column(Float)
+
+    rsi = Column(Float)
+    ma_20 = Column(Float)
+    ma_50 = Column(Float)
+    ma_100 = Column(Float)
+    volatility = Column(Float)
+
+# Creates the final table where we output predictive data
+class GoldStock(Base): 
+    __tablename__ = "gold_stock_price"
+
+    id = Column(Integer, primary_key = True)
+    ticker = Column(String)
+    timestamp = Column(DateTime)
+    actual_price = Column(Float)
+    lstm_prediction = Column(Float, nullable = True)
+    buy_signal = Column(String, nullable = True)
+    confidence_score = Column(Float)
+
+def init_db(): 
+    Base.metadata.create_all(bind = ENGINE)
+
+def get_db_session(): 
+    session = sessionmaker()
+    
+    try: 
+        yield session
+    finally: 
+        session.close()
