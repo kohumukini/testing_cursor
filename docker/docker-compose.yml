@@ -1,0 +1,24 @@
+# PseudoCode
+
+SERVICES: 
+  db: # Lets other services connect to the host db
+    IMAGE: postgres:latest # uses the official PostgreSQL image from Docker Hub
+    RESTART: unless-stopped # If the container stops, default to restarting
+    ENV_FILE: .env # Loads environment variables in 
+    PORTS: "5432:5432" # In order of host_port:container_port - Maps Port 5432 on current machine to port 5432 within postgres container
+    VOLUMES: postgres_data # Store data
+
+  pgadmin: 
+    IMAGE: dpage/pgadmin4
+    DEPENDS_ON: db # Dictates startup order. Start db up first, because these other services depend on it
+    PORTS: "8080:80" # Same thing here. Computer listens ont he 8080 "frequency", which connects to port 80 in the container
+
+  etl_service: 
+    BUILD: ./etl # Build a custom image inside ./etl
+    DEPENDS_ON: db
+    ENV_FILE: .env
+
+  api_backend: 
+    BUILD: ./backend
+    DEPENDS_ON: db
+    PORTS: "8000:80"
