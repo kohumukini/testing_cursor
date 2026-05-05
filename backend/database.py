@@ -21,6 +21,11 @@ else:
 URL = f"postgresql://{USER}:{PASSWORD}@{HOST}:{PORT}/{NAME}"
 ENGINE = create_engine(URL)
 
+#Create the sessionmaker
+# Autocommit = False: Makes user responsible for committing the work - Finalizes and saves changes. Like git push
+# Autoflush = False: Makes user responsible for flushing the work - Synchromizes work. Sends the "draft" to be commited. Like git commit
+SessionLocal = sessionmaker(autocommit = False, autoflush = False, bind = ENGINE)
+
 class Base(DeclarativeBase): 
     pass
 
@@ -65,9 +70,13 @@ def init_db():
     Base.metadata.create_all(bind = ENGINE)
 
 def get_db_session(): 
-    session = sessionmaker()
+    db = SessionLocal()
     
     try: 
-        yield session
+        yield db
     finally: 
-        session.close()
+        db.close().close()
+
+if __name__ == "__main__": 
+    init_db()
+    print("Database tables initialized")
