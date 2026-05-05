@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import Column, Integer, String, Float, DateTime, JSON, create_engine
+from sqlalchemy import Column, BigInteger, Integer, String, Float, Boolean, DateTime, JSON, func, create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 from dotenv import load_dotenv
 
@@ -65,6 +65,24 @@ class GoldStock(Base):
     lstm_prediction = Column(Float, nullable = True)
     buy_signal = Column(String, nullable = True)
     confidence_score = Column(Float)
+
+class Watchlist(Base): 
+    __tablename__ = "stock_watch_list"
+
+    id = Column(Integer, primary_key = True)
+    ticker = Column(String)
+    date_added = Column(DateTime)
+    status = Column(Boolean)
+
+class PullLog(Base): 
+    __tablename__ = "yfinance_pull_log"
+
+    id = Column(BigInteger, primary_key = True, autoincrement = True)
+    pulled_at = Column(DateTime(timezone = True), server_default = func.now())
+    tickers_pulled = Column(String)
+    is_success = Column(Boolean, default = True)
+
+    
 
 def init_db(): 
     Base.metadata.create_all(bind = ENGINE)
