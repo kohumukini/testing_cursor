@@ -72,7 +72,7 @@ class Watchlist(Base):
     id = Column(Integer, primary_key = True)
     ticker = Column(String)
     date_added = Column(DateTime)
-    status = Column(Boolean)
+    status = Column(String)
 
 class PullLog(Base): 
     __tablename__ = "yfinance_pull_log"
@@ -93,7 +93,7 @@ def get_db_session():
     try: 
         yield db
     finally: 
-        db.close().close()
+        db.close()
 
 if __name__ == "__main__": 
     init_db()
