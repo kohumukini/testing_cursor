@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from .database import ENGINE, init_db
+from app.database import ENGINE, init_db
 
 app = FastAPI()
 

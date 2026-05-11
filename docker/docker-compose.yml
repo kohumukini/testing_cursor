@@ -21,8 +21,8 @@ services:
 
   backend: 
     build: 
-      context: ..
-      dockerfile: backend/Dockerfile
+      context: ../backend
+      dockerfile: Dockerfile
     container_name: backend_fastapi
     restart: unless-stopped
     env_file: ../.env
@@ -36,11 +36,11 @@ services:
 
   frontend: 
     build:
-      context: ..
-      dockerfile: frontend/Dockerfile
+      context: ../frontend
+      dockerfile: Dockerfile
     container_name: frontend_react
     ports: 
-      - "3000:3000"
+      - "3000:5173"
     develop: 
       watch: 
         - action: sync
