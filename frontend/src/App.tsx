@@ -1,9 +1,15 @@
-function App() {
+interface ButtonProps {
+  text: string; 
+}
+
+const Button = ({ text }: ButtonProps) => (
+  <button onClick={() => console.log("Hi")}>{text}</button>
+)
+
+export default function App() {
   return (
     <div>
-      <h1>My Project Starts Here</h1>
+      <Button text="Something" />
     </div>
   )
 }
-
-export default App

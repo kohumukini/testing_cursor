@@ -3,7 +3,7 @@ services:
     image: postgres:latest
     container_name: postgres_db
     restart: unless-stopped
-    env_file: ../.env
+    env_file: ./.env
     environment: 
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -25,7 +25,7 @@ services:
       dockerfile: Dockerfile
     container_name: backend_fastapi
     restart: unless-stopped
-    env_file: ../.env
+    env_file: ./.env
     environment: 
       - IS_DOCKER=true
     ports: 
@@ -39,6 +39,8 @@ services:
       context: ../frontend
       dockerfile: Dockerfile
     container_name: frontend_react
+    stdin_open: true
+    tty: true
     ports: 
       - "3000:5173"
     develop: 
@@ -46,7 +48,10 @@ services:
         - action: sync
           path: ../frontend
           target: /app
-          ignore: node_modules
+          ignore: 
+            - node_modules
+            - .git
+            - dist
     depends_on: 
       - backend
 
