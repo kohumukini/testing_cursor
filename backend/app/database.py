@@ -36,7 +36,7 @@ class BronzeStock(Base):
     id = Column(Integer, primary_key = True)
     ticker = Column(String)
     raw_json = Column(JSON)
-    ingested_at = Column(DateTime)
+    ingested_at = Column(DateTime, server_default=func.now())
 
 # Creates the cleaned table after feature engineering and data laundering
 class SilverStock(Base):
