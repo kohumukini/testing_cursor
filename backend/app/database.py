@@ -48,11 +48,19 @@ class SilverStock(Base):
     close_price = Column(Float)
     volume = Column(Float)
 
-    rsi = Column(Float)
-    ma_20 = Column(Float)
-    ma_50 = Column(Float)
-    ma_100 = Column(Float)
-    volatility = Column(Float)
+    rsi_14 = Column(Float)
+    ewm_rsi_14 = Column(Float)
+    sma_20 = Column(Float)
+    sma_50 = Column(Float)
+    sma_100 = Column(Float)
+    volatility_30 = Column(Float)
+    bollinger_band_upper_30 = Column(Float)
+    bollinger_band_lower_30 = Column(Float)
+    bollinger_band_mid_30 = Column(Float)
+
+    __table_args__ = (
+        UniqueConstraint('ticker', 'timestamp', name = 'uq_ticker_timestamp')
+    )
 
 # Creates the final table where we output predictive data
 class GoldStock(Base): 

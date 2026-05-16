@@ -1,6 +1,8 @@
 import pandas as pd
 import yfinance as yf
 
+# Simple Moving Average
+
 def calculate_moving_average(dataframe, window):
     dataframe = dataframe.sort_index()
 
@@ -13,6 +15,8 @@ def calculate_moving_average(dataframe, window):
     )
 
     return dataframe; 
+
+# RSI Calculations
 
 def calculate_rsi(dataframe, window_size): 
     temp_df = pd.DataFrame({'Difference': dataframe['Close'].diff()})
@@ -48,6 +52,8 @@ def calculate_ewm_rsi(dataframe, window_size):
     dataframe[f'EWM_RSI_{col_name}'] = 100 - (100 / (1 - rs))
 
     return dataframe
+
+# Volatility & Bollinger Bands
 
 def calculate_volatility(dataframe, window_size): 
     col_name = "".join(filter(str.isdigit, str(window_size)))

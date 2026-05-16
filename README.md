@@ -42,7 +42,7 @@ yFinance Library
         ▼
  _______________
 |               |
-|     SILVER    |   Feature Engineering - RSI, MA, Volatility, 
+|     SILVER    |   Feature Engineering - RSI, MA, Volatility, Bollinger Band Range
 |_______________|
         |
         |
@@ -81,9 +81,10 @@ yFinance Library
 
 ## Roadmap
 
-- [ ] Complete Silver and Gold ETL layers
+- [X] Complete Silver Layer
 - [ ] FastAPI endpoint implementation for all layers
 - [ ] React Dashboard with charts & Data display
 - [ ] Buy/Sell Classifier & LTSM Model Training Pipelines
+- [ ] Complete Gold ETL Layer
 - [ ] Automate Ingestion
 - [ ] TBA
