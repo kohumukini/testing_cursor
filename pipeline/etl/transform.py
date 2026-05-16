@@ -54,7 +54,6 @@ def calculate_ewm_rsi(dataframe, window_size):
     return dataframe
 
 # Volatility & Bollinger Bands
-
 def calculate_volatility(dataframe, window_size): 
     col_name = "".join(filter(str.isdigit, str(window_size)))
 
@@ -76,3 +75,15 @@ def calculate_bollinger_bands(dataframe, window_size, num_std):
 
     return dataframe
 
+def transform(dataframe): 
+    dataframe = calculate_moving_average(dataframe, "20D")
+    dataframe = calculate_moving_average(dataframe, "50D")
+    dataframe = calculate_moving_average(dataframe, "100D")
+
+    dataframe = calculate_rsi(dataframe, "14D")
+    dataframe = calculate_ewm_rsi(dataframe, 14)
+
+    dataframe = calculate_volatility(dataframe, "30D")
+    dataframe = calculate_bollinger_bands(dataframe, "30D")
+
+    return dataframe

@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import Column, BigInteger, Integer, String, Float, Boolean, DateTime, JSON, func, create_engine
+from sqlalchemy import Column, BigInteger, Integer, String, Float, Boolean, DateTime, ARRAY, JSON, func, create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 from dotenv import load_dotenv
 
@@ -87,8 +87,9 @@ class PullLog(Base):
 
     id = Column(BigInteger, primary_key = True, autoincrement = True)
     pulled_at = Column(DateTime(timezone = True), server_default = func.now())
-    tickers_pulled = Column(String)
+    tickers_pulled = Column(ARRAY(Text))
     is_success = Column(Boolean, default = True)
+    error_message = Column(Text, nullable = True)
 
     
 
